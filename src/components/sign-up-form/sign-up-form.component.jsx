@@ -5,6 +5,7 @@ import Button from "../button/button.component"
 import FormInput from '../form-input/form-input.component'
 import './sign-up-form.styles.scss'
 
+
 const defaultFormFields = {
     displayName: '',
     email: '',
@@ -39,8 +40,9 @@ const SignUpForm = () => {
             
             if(error.code === 'auth/email-already-in-use'){
                 alert('Email already exists, please sign in')
+                resetFormFields();
             }else{
-                console.log('there was an error while authenicating', error.message)
+                console.log('there was an error while authenticating', error.message)
             }
         }
         
@@ -56,6 +58,7 @@ const SignUpForm = () => {
 
     return(
         <div className='sign-up-container'>
+
             <h2>Don't have an account</h2>
             <span>Sign up with email and password</span>
             <form onSubmit={handleSubmit}>
@@ -69,6 +72,7 @@ const SignUpForm = () => {
                 <FormInput label= "Confirm Password" type="password" required name="confirmPassword" value = {confirmPassword} onChange={handleChange}/>
                 <Button type="submit">Sign Up</Button>
             </form>
+            
         </div>
     )
 }

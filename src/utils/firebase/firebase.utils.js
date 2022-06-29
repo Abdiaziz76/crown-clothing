@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app';
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword} from 'firebase/auth';
+import {getAuth, signInWithEmailAndPassword, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword} from 'firebase/auth';
 import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
 
 // Your web app's Firebase configuration
@@ -34,7 +34,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 //snapshot help you check if the docref exists
     const userSnapshot = await getDoc(userDocref);
 
-    //if user doesn't exists
+    //if user doesn't exists create the user
     if(!userSnapshot.exists()){
         const {displayName, email} = userAuth;
         const createdAt = new Date();
@@ -59,4 +59,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 
     return await createUserWithEmailAndPassword(auth, email, password);
 
+}
+
+export const logUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return; //if no email and password return nothing or pass
+
+    return await signInWithEmailAndPassword(auth, email, password);
 }
