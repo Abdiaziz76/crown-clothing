@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+
 import './sign-in-form.styles.scss'
 import { signInWithGooglePopup, createUserDocumentFromAuth, logUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
@@ -15,6 +16,8 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields)
     const {email, password} = formFields;
 
+    
+
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }    
@@ -26,9 +29,9 @@ const SignInForm = () => {
     const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await logUserWithEmailAndPassword(email, password)
+        const {user} = await logUserWithEmailAndPassword(email, password)
 
-       console.log(response)
+    //    setCurrentUser(user) will be handle by onausthstatechanged in user context for easy manipulation
 
      
         resetFormFields();
@@ -51,15 +54,15 @@ const SignInForm = () => {
 }
 
 const logGoogleUser =  async() => {
-    const response = await signInWithGooglePopup();
-    const {user} = response;
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
+    
+    
 }
     
 
     return(
         <div className='sign-in-container'>
-            <h2>Already Have have an account</h2>
+            <h2>Already Have an account</h2>
             <span>Sign in with email and password</span>
             <form onSubmit={handleSubmit}>
                 
